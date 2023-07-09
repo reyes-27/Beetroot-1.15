@@ -19,8 +19,10 @@ from apps.category.models import Category
 from slugify import slugify
 from .pagination import *
 
+#=======================================================================================>
+
 class BlogListView(APIView):
-    permission_classes=(custom_permissions.IsAuthorOrReadOnly,)
+    permission_classes=(permissions.IsAuthenticated,)
     def get(self, request, format=None):
         if Post.objects.all().exists():
             posts=Post.objects.all()
@@ -36,7 +38,7 @@ class BlogListViewByCategories(APIView):
     #Else it's a parent(I gotta show parent and children posts)
     #Do it by your own
 
-    permission_classes=(custom_permissions.IsAuthorOrReadOnly,)
+    permission_classes=(permissions.AllowAny,)
     def get(self, request, format=None):
         if Post.objects.all().exists():
             posts=Post.objects.order_by("-published").all()
@@ -142,7 +144,7 @@ class RepostByPostListView(APIView):
             
 class PostDetail(RetrieveUpdateDestroyAPIView):
     queryset=Post.objects.all()
-    permission_classes=(custom_permissions.IsAuthorOrReadOnly,)
+    permission_classes=(permissions.AllowAny,)
     serializer_class=PostSerializer
 
 class CommentCreateView(CreateAPIView):
@@ -180,4 +182,4 @@ class DashboardView(APIView):
 
             return paginator.get_paginated_response({"posts":serializer.data})
         else:
-            return Response({"Error":"You don\'t have any posts"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"Error":"You don\'t have any posts"}, status=status.HTTP_204_NO_CONTENT)

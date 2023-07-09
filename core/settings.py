@@ -48,6 +48,7 @@ PROJECT_APPS = [
     'apps.accounts.apps.AccountsConfig',
     'apps.blog.apps.BlogConfig',
     'apps.category.apps.CategoryConfig',
+    'apps.ecommerce.apps.EcommerceConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -63,6 +64,7 @@ THIRD_PARTY_APPS = [
     'corsheaders',
     'ckeditor',
     'ckeditor_uploader',
+    "debug_toolbar",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
@@ -120,6 +122,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -148,6 +151,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Database
+
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
@@ -226,6 +230,22 @@ LOGIN_REDIRECT_URL="blog_list"
 # ]
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+
+#CORS HEADERS
+
+#CORS_ALLOWED_ORIGINS=[
+#    'http://127.0.0.1:3000'
+#]
+
+CORS_ALLOW_ALL_ORIGINS=True
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
+STRIPE_PUBLISHABLE_KEY="pk_test_51MxvMiA1HgCZ0KEv2ZwXnq3eRzeRgtSiTlBWGLIhyycHS6aQ3A5jcqmPG9cF5xA1ifPscI7xv7Hgesi6SIl3XCDy00wn2gFuAN"
 
 if not DEBUG:
     pass
